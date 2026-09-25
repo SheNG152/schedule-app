@@ -1,0 +1,412 @@
+:root {
+  --primary: #4a90d9;
+  --primary-dark: #357abd;
+  --primary-light: #e8f0fe;
+  --bg: #f5f7fa;
+  --card-bg: #ffffff;
+  --text: #333333;
+  --text-light: #666666;
+  --border: #e0e0e0;
+  --success: #4caf50;
+  --danger: #f44336;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --radius: 8px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+.app-header {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.app-header h1 {
+  font-size: 24px;
+  margin-bottom: 4px;
+}
+
+.header-subtitle {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.tab-nav {
+  display: flex;
+  background: var(--card-bg);
+  border-bottom: 1px solid var(--border);
+  padding: 0 10px;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text-light);
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.tab-btn:hover {
+  color: var(--primary);
+}
+
+.tab-btn.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+  font-weight: 600;
+}
+
+.main-content {
+  padding: 20px;
+}
+
+/* Home Page */
+.home-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.today-section,
+.todo-section {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.today-section h2,
+.todo-section h2,
+.todo-page h2,
+.weekly-page h2 {
+  font-size: 20px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+
+.week-info {
+  color: var(--primary);
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.no-courses {
+  color: var(--text-light);
+  font-size: 16px;
+  padding: 20px 0;
+}
+
+.course-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.course-card {
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  background: var(--primary-light);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.course-time {
+  font-size: 13px;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.course-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 4px 0;
+}
+
+.course-detail {
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+/* Todo */
+.todo-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.todo-input {
+  flex: 1;
+  min-width: 150px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 14px;
+}
+
+.todo-input:focus,
+.todo-date-input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.todo-date-input {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 14px;
+}
+
+.add-btn {
+  padding: 10px 20px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.add-btn:hover {
+  background: var(--primary-dark);
+}
+
+.todo-list {
+  list-style: none;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s;
+}
+
+.todo-item:hover {
+  background: var(--bg);
+}
+
+.todo-item.completed .todo-text {
+  text-decoration: line-through;
+  color: var(--text-light);
+}
+
+.todo-text {
+  flex: 1;
+  font-size: 14px;
+}
+
+.todo-date {
+  font-size: 12px;
+  color: var(--primary);
+  background: var(--primary-light);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  color: var(--danger);
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.delete-btn:hover {
+  background: #ffebee;
+}
+
+/* Weekly Schedule */
+.weekly-page {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.schedule-grid {
+  display: grid;
+  grid-template-columns: 80px repeat(7, 1fr);
+  grid-template-rows: 40px repeat(14, 50px);
+  overflow-x: auto;
+  margin-top: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.schedule-header-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary-light);
+  border-bottom: 2px solid var(--border);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--primary);
+}
+
+.time-header {
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+.day-header {
+  border-left: 1px solid var(--border);
+}
+
+.time-cell {
+  padding: 4px 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  background: #fafafa;
+  grid-column: 1;
+}
+
+.period-num {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--primary);
+}
+
+.period-time {
+  font-size: 10px;
+  color: var(--text-light);
+}
+
+.course-block {
+  background: var(--primary-light);
+  border-left: 3px solid var(--primary);
+  border-radius: 4px;
+  padding: 6px 8px;
+  margin: 2px 4px;
+  font-size: 12px;
+  overflow: hidden;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.block-name {
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--primary-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.block-detail {
+  font-size: 11px;
+  color: var(--text-light);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.block-location {
+  font-size: 11px;
+  color: var(--text-light);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Todo Page */
+.todo-page {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .app-header h1 {
+    font-size: 20px;
+  }
+
+  .tab-btn {
+    font-size: 13px;
+    padding: 10px 8px;
+  }
+
+  .main-content {
+    padding: 12px;
+  }
+
+  .schedule-grid {
+    grid-template-columns: 60px repeat(7, minmax(80px, 1fr));
+  }
+
+  .course-block {
+    font-size: 11px;
+    padding: 4px 6px;
+  }
+
+  .block-name {
+    font-size: 11px;
+  }
+
+  .block-detail,
+  .block-location {
+    font-size: 10px;
+  }
+
+  .todo-form {
+    flex-direction: column;
+  }
+
+  .todo-input {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .schedule-grid {
+    grid-template-columns: 50px repeat(7, minmax(60px, 1fr));
+  }
+
+  .period-time {
+    font-size: 9px;
+  }
+
+  .course-card {
+    padding: 10px 12px;
+  }
+
+  .course-name {
+    font-size: 14px;
+  }
+}
