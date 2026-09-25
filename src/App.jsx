@@ -12,6 +12,18 @@ import {
 } from './storage';
 import './App.css';
 
+function KawaiiDecos() {
+  return (
+    <>
+      <span className="kawaii-deco kawaii-deco-1">🎀</span>
+      <span className="kawaii-deco kawaii-deco-2">⭐</span>
+      <span className="kawaii-deco kawaii-deco-3">🌸</span>
+      <span className="kawaii-deco kawaii-deco-4">☁️</span>
+      <span className="kawaii-deco kawaii-deco-5">♡</span>
+    </>
+  );
+}
+
 function Home({ onNavigate }) {
   const [todos, setTodos] = useState([]);
   const [newTodoText, setNewTodoText] = useState('');
@@ -85,16 +97,16 @@ function Home({ onNavigate }) {
   return (
     <div className="home-page">
       <div className="today-section">
-        <h2>📅 今天 ({DAY_NAMES[todayDay]})</h2>
-        <p className="week-info">第 {week} 周</p>
+        <h2>🎀 今天 ({DAY_NAMES[todayDay]})</h2>
+        <p className="week-info">✨ 第 {week} 周</p>
         {todayCourses.length === 0 ? (
-          <p className="no-courses">今天没有课 🎉</p>
+          <p className="no-courses">今天没有课哦~ 🌸</p>
         ) : (
           <div className="course-list">
             {todayCourses.map((course) => (
               <div key={course.id} className="course-card">
                 <div className="course-time">
-                  {TIME_SLOTS.find((s) => s.period === course.startPeriod)?.time.split('-')[0]} -{' '}
+                  🕐 {TIME_SLOTS.find((s) => s.period === course.startPeriod)?.time.split('-')[0]} -{' '}
                   {TIME_SLOTS.find((s) => s.period === course.endPeriod)?.time.split('-')[1]}
                 </div>
                 <div className="course-name">{course.name}</div>
@@ -114,7 +126,7 @@ function Home({ onNavigate }) {
             type="text"
             value={newTodoText}
             onChange={(e) => setNewTodoText(e.target.value)}
-            placeholder="添加待办..."
+            placeholder="添加待办~ ♡"
             className="todo-input"
           />
           <input
@@ -124,7 +136,7 @@ function Home({ onNavigate }) {
             className="todo-date-input"
           />
           <button type="submit" className="add-btn">
-            添加
+            添加 ✧
           </button>
         </form>
         <ul className="todo-list">
@@ -153,8 +165,18 @@ function WeeklySchedule() {
   const maxWeek = CALENDAR.totalWeeks.fall;
   const weekCourses = COURSES.filter((c) => c.weeks.includes(selectedWeek));
 
+  const courseColorMap = {};
+  let colorIndex = 0;
+  weekCourses.forEach((c) => {
+    if (!(c.name in courseColorMap)) {
+      courseColorMap[c.name] = colorIndex % 6;
+      colorIndex++;
+    }
+  });
+
   return (
     <div className="weekly-page">
+      <h2>📆 周课表</h2>
       <div className="week-nav">
         <button
           className="week-nav-btn"
@@ -163,7 +185,7 @@ function WeeklySchedule() {
         >
           ← 上一周
         </button>
-        <span className="week-nav-title">第 {selectedWeek} 周</span>
+        <span className="week-nav-title">🌸 第 {selectedWeek} 周</span>
         <button
           className="week-nav-btn"
           onClick={() => setSelectedWeek((w) => Math.min(maxWeek, w + 1))}
@@ -195,10 +217,11 @@ function WeeklySchedule() {
               (c) => c.day === day && c.startPeriod === slot.period
             );
             if (!course) return null;
+            const colorClass = `color-${courseColorMap[course.name] ?? 0}`;
             return (
               <div
                 key={`course-${course.id}`}
-                className="course-block"
+                className={`course-block ${colorClass}`}
                 style={{
                   gridColumn: day + 1,
                   gridRow: `${slot.period + 1} / span ${course.endPeriod - course.startPeriod + 1}`,
@@ -216,15 +239,81 @@ function WeeklySchedule() {
   );
 }
 
+function TodoList({ todos: initialTodos, onAdd, onToggle, onDelete }) {
+  const [todos, setTodos] = useState(initialTodos);
+  const [newText, setNewText] = useState('');
+  const [newDate, setNewDate] = useState('');
+
+  function handleAdd(e) {
+    e.preventDefault();
+    if (!newText.trim()) return;
+    const todo = onAdd(newText.trim(), newDate);
+    setTodos([...todos, todo]);
+    setNewText('');
+    setNewDate('');
+  }
+
+  function handleToggle(id) {
+    onToggle(id);
+    setTodos(todos.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t)));
+  }
+
+  function handleDelete(id) {
+    onDelete(id);
+    setTodos(todos.filter((t) => t.id !== id));
+  }
+
+  return (
+    <div className="todo-page">
+      <h2>📝 待办事项</h2>
+      <form className="todo-form" onSubmit={handleAdd}>
+        <input
+          type="text"
+          value={newText}
+          onChange={(e) => setNewText(e.target.value)}
+          placeholder="添加待办~ ♡"
+          className="todo-input"
+        />
+        <input
+          type="date"
+          value={newDate}
+          onChange={(e) => setNewDate(e.target.value)}
+          className="todo-date-input"
+        />
+        <button type="submit" className="add-btn">
+          添加 ✧
+        </button>
+      </form>
+      <ul className="todo-list">
+        {todos.map((todo) => (
+          <li key={todo.id} className={`todo-item ${todo.completed ? 'completed' : ''}`}>
+            <input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() => handleToggle(todo.id)}
+            />
+            <span className="todo-text">{todo.text}</span>
+            {todo.date && <span className="todo-date">{todo.date}</span>}
+            <button className="delete-btn" onClick={() => handleDelete(todo.id)}>
+              ✕
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 function App() {
   const [activeTab, setActiveTab] = useState('home');
   const week = getCurrentWeek();
 
   return (
     <div className="app">
+      <KawaiiDecos />
       <header className="app-header">
-        <h1>📚 课程表</h1>
-        <p className="header-subtitle">第 {week} 周</p>
+        <h1>🎀 萌萌课程表</h1>
+        <p className="header-subtitle">✨ 第 {week} 周 ✨</p>
       </header>
       <nav className="tab-nav">
         <button
@@ -266,71 +355,6 @@ function App() {
           />
         )}
       </main>
-    </div>
-  );
-}
-
-function TodoList({ todos: initialTodos, onAdd, onToggle, onDelete }) {
-  const [todos, setTodos] = useState(initialTodos);
-  const [newText, setNewText] = useState('');
-  const [newDate, setNewDate] = useState('');
-
-  function handleAdd(e) {
-    e.preventDefault();
-    if (!newText.trim()) return;
-    const todo = onAdd(newText.trim(), newDate);
-    setTodos([...todos, todo]);
-    setNewText('');
-    setNewDate('');
-  }
-
-  function handleToggle(id) {
-    onToggle(id);
-    setTodos(todos.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t)));
-  }
-
-  function handleDelete(id) {
-    onDelete(id);
-    setTodos(todos.filter((t) => t.id !== id));
-  }
-
-  return (
-    <div className="todo-page">
-      <h2>📝 待办事项</h2>
-      <form className="todo-form" onSubmit={handleAdd}>
-        <input
-          type="text"
-          value={newText}
-          onChange={(e) => setNewText(e.target.value)}
-          placeholder="添加待办..."
-          className="todo-input"
-        />
-        <input
-          type="date"
-          value={newDate}
-          onChange={(e) => setNewDate(e.target.value)}
-          className="todo-date-input"
-        />
-        <button type="submit" className="add-btn">
-          添加
-        </button>
-      </form>
-      <ul className="todo-list">
-        {todos.map((todo) => (
-          <li key={todo.id} className={`todo-item ${todo.completed ? 'completed' : ''}`}>
-            <input
-              type="checkbox"
-              checked={todo.completed}
-              onChange={() => handleToggle(todo.id)}
-            />
-            <span className="todo-text">{todo.text}</span>
-            {todo.date && <span className="todo-date">{todo.date}</span>}
-            <button className="delete-btn" onClick={() => handleDelete(todo.id)}>
-              ✕
-            </button>
-          </li>
-        ))}
-      </ul>
     </div>
   );
 }
