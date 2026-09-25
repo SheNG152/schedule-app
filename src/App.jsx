@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { COURSES, getCurrentWeek, DAY_NAMES, TIME_SLOTS } from './data';
+import { COURSES, getCurrentWeek, CALENDAR, DAY_NAMES, TIME_SLOTS } from './data';
 import {
   loadTodos,
   addTodo,
@@ -149,12 +149,29 @@ function Home({ onNavigate }) {
 }
 
 function WeeklySchedule() {
-  const week = getCurrentWeek();
-  const weekCourses = COURSES.filter((c) => c.weeks.includes(week));
+  const [selectedWeek, setSelectedWeek] = useState(getCurrentWeek());
+  const maxWeek = CALENDAR.totalWeeks.fall;
+  const weekCourses = COURSES.filter((c) => c.weeks.includes(selectedWeek));
 
   return (
     <div className="weekly-page">
-      <h2>📆 第 {week} 周课表</h2>
+      <div className="week-nav">
+        <button
+          className="week-nav-btn"
+          onClick={() => setSelectedWeek((w) => Math.max(1, w - 1))}
+          disabled={selectedWeek <= 1}
+        >
+          ← 上一周
+        </button>
+        <span className="week-nav-title">第 {selectedWeek} 周</span>
+        <button
+          className="week-nav-btn"
+          onClick={() => setSelectedWeek((w) => Math.min(maxWeek, w + 1))}
+          disabled={selectedWeek >= maxWeek}
+        >
+          下一周 →
+        </button>
+      </div>
       <div className="schedule-grid">
         <div className="schedule-header-cell time-header" style={{ gridRow: 1 }}>时间</div>
         {DAY_NAMES.slice(1).map((day, i) => (

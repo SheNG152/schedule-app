@@ -251,6 +251,43 @@ body {
   box-shadow: var(--shadow);
 }
 
+.week-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.week-nav-btn {
+  padding: 8px 16px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.2s, opacity 0.2s;
+}
+
+.week-nav-btn:hover:not(:disabled) {
+  background: var(--primary-dark);
+}
+
+.week-nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.week-nav-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary);
+  min-width: 100px;
+  text-align: center;
+}
+
 .schedule-grid {
   display: grid;
   grid-template-columns: 80px repeat(7, 1fr);
